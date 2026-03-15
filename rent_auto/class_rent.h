@@ -1,30 +1,31 @@
-#ifndef class_rent_H
-#define class_rent_H
+#ifndef RENTAL_H
+#define RENTAL_H
 
-#include <iostream>
-#include <string>
-using namespace std;
+#include "class_car.h"
+#include "class_client.h"
 
 class Rental {
 private:
-    int rentdays;
-    double cost;
+    Car car;
+    Client client;
+    int days;
 
 public:
 
-    Rental(int days, double priceday): rentdays(days), cost(days * priceday) {
-        cout << "constructor3 called\n";
-    }
-    Rental() : Rental(1, 0.0) {}
+    Rental(Car c, Client cl, int d)
+        : car(c), client(cl), days(d) {}
 
-
-
-    ~Rental() {
-        cout << "destructor3 called\n";
+    double totalcost() const {
+        return days * 50;
     }
 
-    void display() const {
-        cout << "Days: " << rentdays << ", Total cost: " << cost << "$" << endl;
+    void showInfo() const {
+
+        client.showInfo();
+        car.showInfo();
+
+        cout << "Days: " << days << endl;
+        cout << "Total cost: " << totalcost() << endl;
     }
 };
 

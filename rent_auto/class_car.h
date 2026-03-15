@@ -1,33 +1,96 @@
-#ifndef class_car_H
-#define class_car_H
+#ifndef CAR_H
+#define CAR_H
 
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 class Car {
 private:
     string brand;
     string model;
-    int year;
+    double priceday;
+
+    static int allcar;
 
 public:
-    Car(string b, string m, int y) : brand(b), model(m), year(y) {
-        cout << "constructor1 called\n";
+
+    Car(string b = "Unknown", string m = "Unknown", double p = 0)
+        : brand(b), model(m), priceday(p)
+    {
+        allcar++;
     }
-    // конструктоp
-    Car() : Car("brand name", "model name", 2000) {}
 
+    // Copy constructor
+    Car(const Car& other)
+        : brand(other.brand), model(other.model), priceday(other.priceday)
+    {
+        cout << "Copy constructor\n";
+        allcar++;
+    }
 
+    // Move constructor
+    Car(Car&& other) noexcept
+        : brand(move(other.brand)), model(move(other.model)), priceday(other.priceday)
+    {
+        cout << "Move constructor\n";
+    }
 
-    // деконструктор
+    // destructor
     ~Car() {
-        cout << "destructor1 called\n";
+        allcar--;
     }
-    //вивід без зміни об'єктів
-    void display() const {
-        cout << "Car: " << brand << " " << model << " (" << year << ")" << endl;
+
+    // this
+    void setPrice(double pricePerDay) {
+        this->priceday = pricePerDay;
+    }
+
+    // const метод
+    void showInfo() const {
+        cout << brand << " " << model
+             << " - Price: " << priceday << endl;
+    }
+
+    // static метод
+    static int getCarCount() {
+        return allcar;
+    }
+
+    // унарний оператор
+    Car operator-() const {
+        Car temp = *this;
+        temp.priceday *= 0.8;
+        return temp;
+    }
+
+    // бінарний оператор
+    bool operator>(const Car& other) const {
+        return priceday > other.priceday;
+    }
+
+    // stream operators
+    friend ostream& operator<<(ostream& os, const Car& car) {
+        os << car.brand << " " << car.model
+           << " - Price per day: " << car.priceday;
+        return os;
+    }
+
+    friend istream& operator>>(istream& is, Car& car) {
+        cout << "Brand: ";
+        is >> car.brand;
+
+        cout << "Model: ";
+        is >> car.model;
+
+        cout << "Price per day: ";
+        is >> car.priceday;
+
+        return is;
     }
 };
+
+int Car::allcar = 0;
 
 #endif
