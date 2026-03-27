@@ -1,96 +1,57 @@
 #ifndef CAR_H
 #define CAR_H
 
-#include <iostream>
-#include <string>
+#include "class_vehicle.h"
 
-using namespace std;
-
-class Car {
-private:
-    string brand;
+class Car : public Vehicle {
+protected:
     string model;
-    double priceday;
-
     static int allcar;
-
 public:
-
     Car(string b = "Unknown", string m = "Unknown", double p = 0)
-        : brand(b), model(m), priceday(p)
-    {
+        : Vehicle(b, p), model(m) {
         allcar++;
+        cout << "Constructor Car " << endl;
     }
 
     // Copy constructor
-    Car(const Car& other)
-        : brand(other.brand), model(other.model), priceday(other.priceday)
-    {
-        cout << "Copy constructor\n";
+    Car(const Car& other) : Vehicle(other.brand, other.priceday), model(other.model) {
         allcar++;
+        cout << "Copy Constructor Car" << endl;
     }
 
     // Move constructor
-    Car(Car&& other) noexcept
-        : brand(move(other.brand)), model(move(other.model)), priceday(other.priceday)
-    {
-        cout << "Move constructor\n";
+    Car(Car&& other) noexcept : Vehicle(move(other.brand), other.priceday), model(move(other.model)) {
+        cout << "Move Constructor Car" << endl;
     }
 
-    // destructor
-    ~Car() {
+    // Operator=
+    Car& operator=(const Car& other) {
+        if (this != &other) {
+            brand = other.brand;
+            model = other.model;
+            priceday = other.priceday;
+        }
+        return *this;
+    }
+
+    virtual ~Car() {
         allcar--;
+        cout << "Destructor Car" << endl;
     }
 
-    // this
-    void setPrice(double pricePerDay) {
-        this->priceday = pricePerDay;
-    }
+    static int getCarCount() { return allcar; }
+    void setPrice(double p) { this->priceday = p; }
 
-    // const метод
-    void showInfo() const {
-        cout << brand << " " << model
-             << " - Price: " << priceday << endl;
-    }
-
-    // static метод
-    static int getCarCount() {
-        return allcar;
-    }
-
-    // унарний оператор
     Car operator-() const {
         Car temp = *this;
-        temp.priceday *= 0.8;
+        temp.priceday *= 0.9;
         return temp;
     }
 
-    // бінарний оператор
-    bool operator>(const Car& other) const {
-        return priceday > other.priceday;
-    }
-
-    // stream operators
-    friend ostream& operator<<(ostream& os, const Car& car) {
-        os << car.brand << " " << car.model
-           << " - Price per day: " << car.priceday;
-        return os;
-    }
-
-    friend istream& operator>>(istream& is, Car& car) {
-        cout << "Brand: ";
-        is >> car.brand;
-
-        cout << "Model: ";
-        is >> car.model;
-
-        cout << "Price per day: ";
-        is >> car.priceday;
-
-        return is;
+    virtual void showInfo() const {
+        cout << brand << " " << model << " | Price: " << priceday << "$";
     }
 };
-
-int Car::allcar = 0;
 
 #endif

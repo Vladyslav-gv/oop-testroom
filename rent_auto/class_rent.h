@@ -1,31 +1,25 @@
-#ifndef RENTAL_H
-#define RENTAL_H
+#ifndef RENT_H
+#define RENT_H
 
-#include "class_car.h"
 #include "class_client.h"
+#include "class_gas_car.h"
+#include "class_electric_car.h"
 
-class Rental {
+class Rent {
 private:
-    Car car;
+    // Композиція: Rent включає в себе об'єкти інших класів
     Client client;
+    Car car;
     int days;
 
 public:
+    Rent(Client cl, Car c, int d) : client(cl), car(c), days(d) {}
 
-    Rental(Car c, Client cl, int d)
-        : car(c), client(cl), days(d) {}
-
-    double totalcost() const {
-        return days * 50;
-    }
-
-    void showInfo() const {
-
+    void displayContract() const {
+        cout << "\nRent" << endl;
         client.showInfo();
         car.showInfo();
-
-        cout << "Days: " << days << endl;
-        cout << "Total cost: " << totalcost() << endl;
+        cout << "\nTime: " << days << " day." << endl;
     }
 };
 

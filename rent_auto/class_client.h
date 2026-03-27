@@ -1,24 +1,23 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
-#include <iostream>
-#include <string>
+#include "class_person.h"
 
-using namespace std;
-
-class Client {
+class Client : public Person {
 private:
-    string name;
-    int age;
-
+    string phoneNumber;
 public:
+    Client(string n = "Unknown", int a = 18, string phone = "None")
+        : Person(n, a), phoneNumber(phone) {
+        cout << "Constructor Client " << endl;
+    }
 
-    Client(string n = "Unknown", int a = 18)
-        : name(n), age(a) {}
+    ~Client() {
+        cout << "Destructor Client" << endl;
+    }
 
     void showInfo() const {
-        cout << "Client: " << name
-             << " Age: " << age << endl;
+        cout << "Client: " << name << ", Age: " << age << ", phone: " << phoneNumber << endl;
     }
 };
 

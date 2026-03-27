@@ -1,40 +1,24 @@
-#include "class_car.h"
-#include "class_client.h"
 #include "class_rent.h"
+
+int Car::allcar = 0;
 
 int main() {
 
-    Car car1("Koenigsegg", "Agera R", 17000);
-
-    // Copy constructor
-    Car car2 = car1;
-
-    // Move constructor
-    Car car3 = move(car2);
-
-    car1.setPrice(17000);
-
-    const Car car4("Mazda", "RX7", 12000);
-    car4.showInfo();
-
-    cout << "Cars in stack: " << Car::getCarCount() << endl;
-
-    Car cheapCar = -car1;
-
-    cout << cheapCar << endl;
+    Client customer("Bred", 36, "0501112233");
 
 
-    Car userCar;
+    GasCar gascar("Koenigsegg", "Agera R", 2500, 10.5);
+    ElectricCar elcar("Tesla", "Cybertruck", 3000, 77);
 
-    cin >> userCar;
 
-    cout << userCar << endl;
+    Car discountedAudi = -gascar;
 
-    Client client("Bred", 36);
 
-    Rental rent(car1, client, 3);
+    Rent contract(customer, elcar, 3);
+    contract.displayContract();
 
-    rent.showInfo();
+
+    cout << "Car count: " << Car::getCarCount() << endl;
 
     return 0;
 }
