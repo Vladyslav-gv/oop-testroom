@@ -3,23 +3,28 @@
 
 #include <iostream>
 #include <string>
+
 using namespace std;
 
-class Person {
-protected:
+class Person {protected:
     string name;
-    int age;
+    string email;
+
 public:
-    Person(string n = "Unknown", int a = 0) : name(n), age(a) {
+    Person(string n, string e) : name(n), email(e) {
         cout << "Constructor Person" << endl;
     }
+
     virtual ~Person() {
         cout << "Destructor Person" << endl;
     }
 
-    void showPersonInfo() const {
-        cout << "Name: " << name << ", Age: " << age;
+    virtual void displayInfo() const {
+        cout << " Name: " << name << endl << " Email: " << email;
     }
+
+    string getName() const { return name; }
+    string getEmail() const { return email; }
 };
 
 #endif
