@@ -7,11 +7,12 @@ class Car : public Vehicle {
 protected:
     string model;
     static int allcar;
+
 public:
     Car(string b = "Unknown", string m = "Unknown", double p = 0)
         : Vehicle(b, p), model(m) {
         allcar++;
-        cout << "Constructor Car " << endl;
+        cout << "Constructor Car" << endl;
     }
 
     // Copy constructor
@@ -22,6 +23,7 @@ public:
 
     // Move constructor
     Car(Car&& other) noexcept : Vehicle(move(other.brand), other.priceday), model(move(other.model)) {
+        allcar++;
         cout << "Move Constructor Car" << endl;
     }
 
@@ -49,9 +51,30 @@ public:
         return temp;
     }
 
-    virtual void showInfo() const {
-        cout << brand << " " << model << " | Price: " << priceday << "$";
+    // Overriding virtual function
+    virtual void showInfo() const override {
+        cout << brand << " " << model << endl << " Price: " << priceday << "$";
     }
+
+    virtual string getDescribe() const override {
+        return "Car - " + brand + " " + model;
+    }
+
+    // Implementing pure virtual function
+    virtual double tCost(int days) const override {
+        return priceday * days;
+    }
+
+    virtual void performMain() const override {
+        cout << "Car maintenance: Oil change, tire rotation, brake check" << endl;
+    }
+
+    // Non-virtual method - demonstrates static binding
+    void nonVirtual() const {}
+
+    string getModel() const { return model; }
 };
+
+int Car::allcar = 0;
 
 #endif
