@@ -15,6 +15,9 @@ public:
         cout << "Constructor Car" << endl;
     }
 
+    virtual int getType() const { return 0; }
+    virtual double getExtra() const { return 0; }
+
     // Copy constructor
     Car(const Car& other) : Vehicle(other.brand, other.priceday), model(other.model) {
         allcar++;

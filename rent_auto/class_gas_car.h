@@ -13,11 +13,14 @@ public:
         cout << "Constructor GasCar" << endl;
     }
 
+    int getType() const override { return 1; }
+    double getExtra() const override { return getFuel(); }
+
     virtual ~GasCar() {
         cout << "Destructor GasCar" << endl;
     }
 
-    void showInfo() const override {
+    void showInfo() const override final{
         Car::showInfo();
         cout << endl << " Type: Gas " << endl << " Consumption: " << fuelConsumption << " l/100km";
     }
@@ -26,8 +29,8 @@ public:
         return "Gas Car - " + brand + " " + model;
     }
 
-    double tCost(int days) const override {
-        return priceday * days * 1.1; // Gas cars have 10% surcharge
+    double tCost(int days) const override final {
+        return priceday * days * 1.1;
     }
 
     void performMain() const override {
